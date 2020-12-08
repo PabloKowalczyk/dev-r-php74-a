@@ -22,7 +22,15 @@ jobs:
                 id: docker_meta
                 uses: crazy-max/ghaction-docker-meta@v1
                 with:
-                    images: pablokowalczyk/dev-r-php74-a
+                    images: ghcr.io/pablokowalczyk/dev-runtime-php74-apache
+
+            -
+                name: Login to GitHub Container Registry
+                uses: docker/login-action@v1
+                with:
+                    registry: ghcr.io
+                    username: ${{ github.repository_owner }}
+                    password: ${{ secrets.CR_PAT }}
 
             -
                 name: Build and push
