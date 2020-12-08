@@ -18,6 +18,15 @@ jobs:
                 uses: docker/setup-buildx-action@v1
 
             -
+                name: Cache Docker layers
+                uses: actions/cache@v2
+                with:
+                    path: /tmp/.buildx-cache
+                    key: ${{ runner.os }}-buildx-${{ github.sha }}
+                    restore-keys: |
+                        ${{ runner.os }}-buildx-
+
+            -
                 name: Docker meta
                 id: docker_meta
                 uses: crazy-max/ghaction-docker-meta@v1
@@ -42,3 +51,5 @@ jobs:
                     push: ${{ github.event_name != 'pull_request' }}
                     tags: ${{ steps.docker_meta.outputs.tags }}
                     labels: ${{ steps.docker_meta.outputs.labels }}
+                    cache-from: type=local,src=/tmp/.buildx-cache
+                    cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
