@@ -9,14 +9,24 @@ jobs:
         name: Push Docker image to GitHub Packages
         runs-on: ubuntu-20.04
         steps:
-            - name: Check out the repo
-              uses: actions/checkout@v2
+            -
+                name: Check out the repo
+                uses: actions/checkout@v2
 
-            - name: Push to GitHub Packages
-              uses: docker/build-push-action@v1
-              with:
-                  username: ${{ github.actor }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
-                  registry: docker.pkg.github.com
-                  repository: PabloKowalczyk/dev-r-php74-a
-                  tag_with_ref: true
+            -
+                name: Docker meta
+                id: docker_meta
+                uses: crazy-max/ghaction-docker-meta@v1
+                with:
+                    images: pablokowalczyk/dev-runtime-php74-apache
+
+            -
+                name: Build and push
+                uses: docker/build-push-action@v2
+                with:
+                    context: .
+                    file: ./Dockerfile
+                    platforms: linux/amd64
+                    push: ${{ github.event_name != 'pull_request' }}
+                    tags: ${{ steps.docker_meta.outputs.tags }}
+                    labels: ${{ steps.docker_meta.outputs.labels }}
