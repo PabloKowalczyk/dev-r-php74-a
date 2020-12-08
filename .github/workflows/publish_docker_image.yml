@@ -22,7 +22,7 @@ jobs:
                 id: docker_meta
                 uses: crazy-max/ghaction-docker-meta@v1
                 with:
-                    images: pablokowalczyk/dev-r-php74-a
+                    images: ghcr.io/pablokowalczyk/dev-runtime-php74-apache
 
             -
                 name: Build and push
