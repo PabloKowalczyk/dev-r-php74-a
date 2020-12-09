@@ -8,20 +8,18 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data && \
         unzip \
         libicu-dev \
         git -y && \
+    docker-php-ext-install intl && \
+    docker-php-ext-enable opcache && \
+    apt -y purge libicu-dev && \
     apt -y autoremove && \
-    apt -y autoclean
+    apt -y autoclean && \
+    mkdir -p /var/www/.composer && \
+    chown www-data:www-data /var/www/.composer
 
 RUN a2enmod rewrite headers && \
     sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf && \
     sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-COPY ./php.ini /usr/local/etc/php/conf.d/z-99-dev-php.ini:ro
-
-RUN docker-php-ext-install intl && \
-    docker-php-ext-enable opcache
-
-RUN mkdir -p /var/www/.composer \
-    && chown www-data:www-data /var/www/.composer
-
 COPY --from=composer:2.0.7 /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_HOME /var/www/.composer
+COPY ./php.ini /usr/local/etc/php/conf.d/z-99-dev-php.ini:ro
