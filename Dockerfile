@@ -10,6 +10,7 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data && \
         git -y && \
     docker-php-ext-install intl && \
     docker-php-ext-enable opcache && \
+    apt -y purge libicu-dev && \
     apt -y autoremove && \
     apt -y autoclean && \
     mkdir -p /var/www/.composer && \
