@@ -7,12 +7,28 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data && \
     apt install --no-install-recommends \
         unzip \
         libicu-dev \
+        libvips-dev \
+        libvips42 \
         git -y && \
+    pecl install vips-1.0.12  && \
     docker-php-ext-install intl && \
-    docker-php-ext-enable opcache && \
-    apt -y purge libicu-dev && \
+    docker-php-ext-enable opcache vips && \
+    apt -y purge \
+        autoconf \
+        automake \
+        autotools-dev \
+        libgcc-8-dev \
+        g++-8 \
+        g++ \
+        gcc-8 \
+        gcc \
+        cpp-8 \
+        cpp \
+        libicu-dev \
+        libvips-dev && \
     apt -y autoremove && \
     apt -y autoclean && \
+    rm -rf /tmp/pear && \
     mkdir -p /var/www/.composer && \
     chown www-data:www-data /var/www/.composer
 
