@@ -14,6 +14,16 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data && \
     docker-php-ext-install intl && \
     docker-php-ext-enable opcache vips && \
     apt -y purge \
+        autoconf \
+        automake \
+        autotools-dev \
+        libgcc-8-dev \
+        g++-8 \
+        g++ \
+        gcc-8 \
+        gcc \
+        cpp-8 \
+        cpp \
         libicu-dev \
         libvips-dev && \
     apt -y autoremove && \
