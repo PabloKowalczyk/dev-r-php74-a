@@ -24,6 +24,10 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data && \
         gcc \
         cpp-8 \
         cpp \
+        re2c \
+        pkg-config \
+        make \
+        linux-libc-dev \
         libicu-dev \
         libvips-dev && \
     apt -y autoremove && \
