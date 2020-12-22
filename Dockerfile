@@ -40,6 +40,6 @@ RUN a2enmod rewrite headers && \
     sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf && \
     sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-COPY --from=composer:2.0.7 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.0.8 /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_HOME /var/www/.composer
 COPY ./php.ini /usr/local/etc/php/conf.d/z-99-dev-php.ini:ro
